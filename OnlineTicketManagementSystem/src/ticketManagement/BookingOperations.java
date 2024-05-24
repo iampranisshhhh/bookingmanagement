@@ -1,5 +1,6 @@
 package ticketManagement;
 
+
 public interface BookingOperations {
 	void addBooking(String userName, String userEmail, int numberOfTickets, Event event);
     void viewBookings();

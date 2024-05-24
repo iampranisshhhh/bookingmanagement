@@ -12,9 +12,10 @@ public class Main {
         boolean running = true;
 
         while (running) {
-            System.out.println("1. Bookings");
-            System.out.println("2. Admin");
-            System.out.println("3. Exit");
+            System.out.println("1. Current Events");
+            System.out.println("2. Bookings");
+            System.out.println("3. Admin");
+            System.out.println("4. Exit");
             System.out.print("Choose an option: ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
@@ -22,12 +23,15 @@ public class Main {
             try {
                 switch (choice) {
                     case 1:
-                        bookingsMenu(bookingController, eventManagement, scanner);
+                        currentEventsMenu(eventManagement, scanner);
                         break;
                     case 2:
-                        adminMenu(admin, eventManagement, scanner);
+                        bookingsMenu(bookingController, eventManagement, scanner);
                         break;
                     case 3:
+                        adminMenu(admin, eventManagement, scanner);
+                        break;
+                    case 4:
                         System.out.println("Exiting the program...");
                         running = false;
                         System.exit(0);
@@ -40,6 +44,41 @@ public class Main {
             }
         }
         scanner.close();
+    }
+
+    private static void currentEventsMenu(EventManagement eventManagement, Scanner scanner) {
+        boolean eventsRunning = true;
+
+        while (eventsRunning) {
+            System.out.println("Current Events Menu:");
+            System.out.println("1. Movies");
+            System.out.println("2. Concerts");
+            System.out.println("3. Theatre Plays");
+            System.out.println("4. Back to Main Menu");
+            System.out.print("Choose an option: ");
+            int eventsChoice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            switch (eventsChoice) {
+                case 1:
+                    System.out.println("Available Movies:");
+                    eventManagement.listEventsByType("Movie");
+                    break;
+                case 2:
+                    System.out.println("Available Concerts:");
+                    eventManagement.listEventsByType("Concert");
+                    break;
+                case 3:
+                    System.out.println("Available Theatre Plays:");
+                    eventManagement.listEventsByType("Theatre Play");
+                    break;
+                case 4:
+                    eventsRunning = false;
+                    break;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+            }
+        }
     }
 
     private static void bookingsMenu(BookingController bookingController, EventManagement eventManagement, Scanner scanner) {
@@ -57,22 +96,46 @@ public class Main {
 
             switch (bookingsChoice) {
                 case 1:
-                    System.out.print("Enter your name: ");
-                    String userName = scanner.nextLine();
-                    System.out.print("Enter your email: ");
-                    String userEmail = scanner.nextLine();
-                    System.out.print("Enter number of tickets: ");
-                    int numberOfTickets = scanner.nextInt();
+                    System.out.println("Select Event Type:");
+                    System.out.println("1. Movie");
+                    System.out.println("2. Concert");
+                    System.out.println("3. Theatre Play");
+                    System.out.print("Choose an event type: ");
+                    int eventTypeChoice = scanner.nextInt();
                     scanner.nextLine(); // Consume newline
 
-                    System.out.println("Available Events:");
-                    eventManagement.listEvents();
+                    String eventType = "";
+                    switch (eventTypeChoice) {
+                        case 1:
+                            eventType = "Movie";
+                            break;
+                        case 2:
+                            eventType = "Concert";
+                            break;
+                        case 3:
+                            eventType = "Theatre Play";
+                            break;
+                        default:
+                            System.out.println("Invalid event type. Please try again.");
+                            continue;
+                    }
+
+                    System.out.println("Available " + eventType + " Events:");
+                    eventManagement.listEventsByType(eventType);
                     System.out.print("Enter Event ID to book: ");
                     int eventId = scanner.nextInt();
                     scanner.nextLine(); // Consume newline
 
                     Event event = eventManagement.getEventById(eventId);
                     if (event != null) {
+                        System.out.print("Enter your name: ");
+                        String userName = scanner.nextLine();
+                        System.out.print("Enter your email: ");
+                        String userEmail = scanner.nextLine();
+                        System.out.print("Enter number of tickets: ");
+                        int numberOfTickets = scanner.nextInt();
+                        scanner.nextLine(); // Consume newline
+
                         bookingController.addBooking(userName, userEmail, numberOfTickets, event);
                     } else {
                         System.out.println("Invalid Event ID.");
@@ -205,4 +268,4 @@ public class Main {
             }
         }
     }
-}
+}                   
