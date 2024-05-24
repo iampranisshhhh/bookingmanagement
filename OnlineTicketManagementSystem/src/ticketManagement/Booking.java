@@ -27,5 +27,10 @@ public class Booking {
             throw new IllegalArgumentException("Number of tickets must be positive.");
         }
     }
+
+	public Event getEvent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
 

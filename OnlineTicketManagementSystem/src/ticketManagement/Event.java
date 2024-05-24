@@ -7,12 +7,14 @@ public class Event {
     private String eventName;
     private Date eventDate;
     private String eventVenue;
+    private String eventType; // Added eventType
 
-    public Event(int eventId, String eventName, Date eventDate, String eventVenue) {
+    public Event(int eventId, String eventName, Date eventDate, String eventVenue, String eventType) {
         this.eventId = eventId;
         this.eventName = eventName;
         this.eventDate = eventDate;
         this.eventVenue = eventVenue;
+        this.eventType = eventType;
     }
 
     // Getters and Setters
@@ -48,10 +50,16 @@ public class Event {
         this.eventVenue = eventVenue;
     }
 
+    public String getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
+    }
+
     @Override
     public String toString() {
-        return "Event ID: " + eventId + ", Name: " + eventName + ", Date: " + eventDate + ", Venue: " + eventVenue;
+        return "Event ID: " + eventId + ", Name: " + eventName + ", Date: " + eventDate + ", Venue: " + eventVenue + ", Type: " + eventType;
     }
 }
-
-

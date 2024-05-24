@@ -18,12 +18,13 @@ public class EventManagement implements EventOperations {
     }
 
     @Override
-    public void updateEvent(int eventId, String newName, Date newDate, String newVenue) {
+    public void updateEvent(int eventId, String newName, Date newDate, String newVenue, String newType) {
         for (Event event : events) {
             if (event.getEventId() == eventId) {
                 event.setEventName(newName);
                 event.setEventDate(newDate);
                 event.setEventVenue(newVenue);
+                event.setEventType(newType);
                 System.out.println("Event updated successfully.");
                 return;
             }
@@ -70,4 +71,19 @@ public class EventManagement implements EventOperations {
             }
         }
     }
+
+    public Event getEventById(int eventId) {
+        for (Event event : events) {
+            if (event.getEventId() == eventId) {
+                return event;
+            }
+        }
+        return null;
+    }
+
+	@Override
+	public void updateEvent(int eventId, String newName, Date newDate, String newVenue) {
+		// TODO Auto-generated method stub
+		
+	}
 }

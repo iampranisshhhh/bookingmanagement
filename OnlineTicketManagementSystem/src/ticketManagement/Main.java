@@ -33,7 +33,18 @@ public class Main {
                         int numberOfTickets = scanner.nextInt();
                         scanner.nextLine(); // Consume newline
 
-                        bookingController.addBooking(userName, userEmail, numberOfTickets);
+                        System.out.println("Available Events:");
+                        eventManagement.listEvents();
+                        System.out.print("Enter Event ID to book: ");
+                        int eventId = scanner.nextInt();
+                        scanner.nextLine(); // Consume newline
+
+                        Event event = eventManagement.getEventById(eventId);
+                        if (event != null) {
+                            bookingController.addBooking(userName, userEmail, numberOfTickets, event);
+                        } else {
+                            System.out.println("Invalid Event ID.");
+                        }
                         break;
                     case 2:
                         System.out.print("Enter booking ID to cancel: ");
@@ -126,7 +137,9 @@ public class Main {
                     Date date = java.sql.Date.valueOf(dateStr);
                     System.out.print("Enter Event Venue: ");
                     String venue = scanner.nextLine();
-                    Event event = new Event(id, name, date, venue);
+                    System.out.print("Enter Event Type (Movie, Concert, Theatre Play): ");
+                    String type = scanner.nextLine();
+                    Event event = new Event(id, name, date, venue, type);
                     eventManagement.addEvent(event);
                     break;
                 case 2:
@@ -140,7 +153,9 @@ public class Main {
                     Date newDate = java.sql.Date.valueOf(newDateStr);
                     System.out.print("Enter New Event Venue: ");
                     String newVenue = scanner.nextLine();
-                    eventManagement.updateEvent(updateId, newName, newDate, newVenue);
+                    System.out.print("Enter New Event Type (Movie, Concert, Theatre Play): ");
+                    String newType = scanner.nextLine();
+                    eventManagement.updateEvent(updateId, newName, newDate, newVenue, newType);
                     break;
                 case 3:
                     System.out.print("Enter Event ID to delete: ");
