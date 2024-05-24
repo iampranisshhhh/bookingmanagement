@@ -6,7 +6,7 @@ public class Booking {
     private String userName;
     private String userEmail;
     private int numberOfTickets;
-    private Event event; // Added event reference
+    private Event event;
 
     public Booking(int bookingId, String userName, String userEmail, int numberOfTickets, Event event) {
         this.bookingId = bookingId;

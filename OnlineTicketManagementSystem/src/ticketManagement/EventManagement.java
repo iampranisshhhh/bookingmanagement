@@ -1,31 +1,27 @@
 package ticketManagement;
 
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class EventManagement implements EventOperations {
-	private List<Event> events;
-
-    public EventManagement() {
-        events = new ArrayList<>();
-    }
+	private final List<Event> events = new ArrayList<>();
 
     @Override
     public void addEvent(Event event) {
         events.add(event);
-        System.out.println("Event added successfully.");
     }
 
     @Override
-    public void updateEvent(int eventId, String newName, Date newDate, String newVenue, String newType) {
+    public void updateEvent(String eventId, String newName, Date newDate, String newVenue, String newType, String newTime) {
         for (Event event : events) {
-            if (event.getEventId() == eventId) {
+            if (event.getEventId().equals(eventId)) {
                 event.setEventName(newName);
                 event.setEventDate(newDate);
                 event.setEventVenue(newVenue);
                 event.setEventType(newType);
-                System.out.println("Event updated successfully.");
+                event.setEventTime(newTime);
                 return;
             }
         }
@@ -33,9 +29,8 @@ public class EventManagement implements EventOperations {
     }
 
     @Override
-    public void deleteEvent(int eventId) {
-        events.removeIf(event -> event.getEventId() == eventId);
-        System.out.println("Event deleted successfully.");
+    public void deleteEvent(String eventId) {
+        events.removeIf(event -> event.getEventId().equals(eventId));
     }
 
     @Override
@@ -43,9 +38,7 @@ public class EventManagement implements EventOperations {
         if (events.isEmpty()) {
             System.out.println("No events available.");
         } else {
-            for (Event event : events) {
-                System.out.println(event);
-            }
+            events.forEach(event -> System.out.println(event.getEventName()));
         }
     }
 
@@ -54,7 +47,7 @@ public class EventManagement implements EventOperations {
         boolean found = false;
         for (Event event : events) {
             if (event.getEventType().equalsIgnoreCase(eventType)) {
-                System.out.println(event);
+                System.out.println(event.getEventName());
                 found = true;
             }
         }
@@ -64,9 +57,9 @@ public class EventManagement implements EventOperations {
     }
 
     @Override
-    public void viewEventDetails(int eventId) {
+    public void viewEventDetails(String eventId) {
         for (Event event : events) {
-            if (event.getEventId() == eventId) {
+            if (event.getEventId().equals(eventId)) {
                 System.out.println(event);
                 return;
             }
@@ -80,18 +73,50 @@ public class EventManagement implements EventOperations {
             System.out.println("No events available to generate a report.");
         } else {
             System.out.println("Event Report:");
-            for (Event event : events) {
-                System.out.println(event);
-            }
+            events.forEach(System.out::println);
         }
     }
 
-    public Event getEventById(int eventId) {
+    public Event getEventById(String eventId) {
         for (Event event : events) {
-            if (event.getEventId() == eventId) {
+            if (event.getEventId().equals(eventId)) {
                 return event;
             }
         }
         return null;
     }
+
+    public Event getEventByName(String eventName) {
+        for (Event event : events) {
+            if (event.getEventName().equalsIgnoreCase(eventName)) {
+                return event;
+            }
+        }
+        return null;
+    }
+
+	@Override
+	public void updateEvent(int eventId, String newName, Date newDate, String newVenue, String newType) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteEvent(int eventId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void viewEventDetails(int eventId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateEvent(int eventId, String newName, Date newDate, String newVenue, String newType,
+			String newTime) {
+		// TODO Auto-generated method stub
+		
+	}
 }

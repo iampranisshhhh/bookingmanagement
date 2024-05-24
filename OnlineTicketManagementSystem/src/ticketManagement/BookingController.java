@@ -24,31 +24,18 @@ public class BookingController implements BookingOperations {
         if (bookings.isEmpty()) {
             System.out.println("No bookings available.");
         } else {
-            for (Booking booking : bookings.values()) {
-                System.out.println("Booking ID: " + booking.getBookingId() +
-                                   ", User: " + booking.getUserName() +
-                                   ", Email: " + booking.getUserEmail() +
-                                   ", Tickets: " + booking.getNumberOfTickets() +
-                                   ", Event: " + booking.getEvent().getEventName());
-            }
+            bookings.values().forEach(booking -> System.out.println(
+                "Booking ID: " + booking.getBookingId() +
+                ", User: " + booking.getUserName() +
+                ", Email: " + booking.getUserEmail() +
+                ", Tickets: " + booking.getNumberOfTickets() +
+                ", Event: " + booking.getEvent().getEventName()
+            ));
         }
     }
 
-    public synchronized void viewBookingsByUser(String userName) {
-        boolean found = false;
-        for (Booking booking : bookings.values()) {
-            if (booking.getUserName().equals(userName)) {
-                System.out.println("Booking ID: " + booking.getBookingId() +
-                                   ", User: " + booking.getUserName() +
-                                   ", Email: " + booking.getUserEmail() +
-                                   ", Tickets: " + booking.getNumberOfTickets() +
-                                   ", Event: " + booking.getEvent().getEventName());
-                found = true;
-            }
-        }
-        if (!found) {
-            System.out.println("No bookings found for user: " + userName);
-        }
+    public synchronized void viewAllBookings() {
+        viewBookings();
     }
 
     @Override
@@ -75,4 +62,9 @@ public class BookingController implements BookingOperations {
         String confirmationMessage = "Confirmation email sent to " + booking.getUserEmail() + " for booking ID " + booking.getBookingId();
         System.out.println(confirmationMessage);
     }
-}
+
+	public void viewBookingsByUser(String userName) {
+		// TODO Auto-generated method stub
+		
+	}
+	}
