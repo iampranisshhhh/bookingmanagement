@@ -1,7 +1,12 @@
 package bookingManagement;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
+import java.util.Random;
+
+
+
+
+
 
 public class BookingController {
 	private final Map<Integer, Booking> bookings = new HashMap<>();
@@ -11,7 +16,7 @@ public class BookingController {
         if (numberOfTickets <= 0) {
             throw new IllegalArgumentException("Number of tickets must be positive.");
         }
-        String bookingId = UUID.randomUUID().toString(); // Generate a unique booking ID
+        String bookingId = generateBookingId();
         Booking booking = new Booking(bookingCounter++, userName, numberOfTickets);
         bookings.put(booking.getBookingId(), booking);
         System.out.println("Booking added successfully with ID: " + bookingId);
@@ -52,5 +57,20 @@ public class BookingController {
         // Implement email sending logic here
         System.out.println("Confirmation email sent to " + booking.getUserName() + " for booking ID " + booking.getBookingId());
     }
-}
 
+    private String generateBookingId() {
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        String randomString = getRandomAlphanumericString(5);
+        return timestamp + randomString;
+    }
+
+    private String getRandomAlphanumericString(int length) {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random random = new Random();
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            result.append(characters.charAt(random.nextInt(characters.length())));
+        }
+        return result.toString();
+    }
+}
