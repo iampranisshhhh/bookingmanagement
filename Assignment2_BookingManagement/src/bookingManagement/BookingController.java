@@ -1,6 +1,7 @@
 package bookingManagement;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class BookingController {
 	private final Map<Integer, Booking> bookings = new HashMap<>();
@@ -10,9 +11,10 @@ public class BookingController {
         if (numberOfTickets <= 0) {
             throw new IllegalArgumentException("Number of tickets must be positive.");
         }
+        String bookingId = UUID.randomUUID().toString(); // Generate a unique booking ID
         Booking booking = new Booking(bookingCounter++, userName, numberOfTickets);
         bookings.put(booking.getBookingId(), booking);
-        System.out.println("Booking added successfully!");
+        System.out.println("Booking added successfully with ID: " + bookingId);
         sendConfirmationEmail(booking);
     }
 
@@ -51,3 +53,4 @@ public class BookingController {
         System.out.println("Confirmation email sent to " + booking.getUserName() + " for booking ID " + booking.getBookingId());
     }
 }
+
