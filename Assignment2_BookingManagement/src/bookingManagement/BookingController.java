@@ -1,7 +1,6 @@
 package bookingManagement;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 
 
@@ -13,11 +12,11 @@ public class BookingController implements BookingOperations {
     private int bookingCounter = 1;
 
     @Override
-    public synchronized void addBooking(String userName, int numberOfTickets) {
+    public synchronized void addBooking(String userName, String userEmail, int numberOfTickets) {
         if (numberOfTickets <= 0) {
             throw new IllegalArgumentException("Number of tickets must be positive.");
         }
-        Booking booking = new Booking(bookingCounter++, userName, numberOfTickets);
+        Booking booking = new Booking(bookingCounter++, userName, userEmail, numberOfTickets);
         bookings.put(booking.getBookingId(), booking);
         System.out.println("Booking added successfully with ID: " + booking.getBookingId());
         sendConfirmationEmail(booking);
@@ -31,8 +30,25 @@ public class BookingController implements BookingOperations {
             for (Booking booking : bookings.values()) {
                 System.out.println("Booking ID: " + booking.getBookingId() +
                                    ", User: " + booking.getUserName() +
+                                   ", Email: " + booking.getUserEmail() +
                                    ", Tickets: " + booking.getNumberOfTickets());
             }
+        }
+    }
+
+    public synchronized void viewBookingsByUser(String userName) {
+        boolean found = false;
+        for (Booking booking : bookings.values()) {
+            if (booking.getUserName().equals(userName)) {
+                System.out.println("Booking ID: " + booking.getBookingId() +
+                                   ", User: " + booking.getUserName() +
+                                   ", Email: " + booking.getUserEmail() +
+                                   ", Tickets: " + booking.getNumberOfTickets());
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No bookings found for user: " + userName);
         }
     }
 
@@ -57,10 +73,7 @@ public class BookingController implements BookingOperations {
     }
 
     private void sendConfirmationEmail(Booking booking) {
-        // Implement email sending logic here
-        System.out.println("Confirmation email sent to " + booking.getUserName() + " for booking ID " + booking.getBookingId());
+        String confirmationMessage = "Confirmation email sent to " + booking.getUserEmail() + " for booking ID " + booking.getBookingId();
+        System.out.println(confirmationMessage);
     }
 }
-    
-    		
-    		
