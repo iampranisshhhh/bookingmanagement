@@ -12,12 +12,9 @@ public class Main {
         boolean running = true;
 
         while (running) {
-            System.out.println("1. Add Booking");
-            System.out.println("2. Cancel Booking");
-            System.out.println("3. Update Booking");
-            System.out.println("4. Admin");
-            System.out.println("5. Event Management");
-            System.out.println("6. Exit");
+            System.out.println("1. Bookings");
+            System.out.println("2. Admin");
+            System.out.println("3. Exit");
             System.out.print("Choose an option: ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
@@ -25,50 +22,12 @@ public class Main {
             try {
                 switch (choice) {
                     case 1:
-                        System.out.print("Enter your name: ");
-                        String userName = scanner.nextLine();
-                        System.out.print("Enter your email: ");
-                        String userEmail = scanner.nextLine();
-                        System.out.print("Enter number of tickets: ");
-                        int numberOfTickets = scanner.nextInt();
-                        scanner.nextLine(); // Consume newline
-
-                        System.out.println("Available Events:");
-                        eventManagement.listEvents();
-                        System.out.print("Enter Event ID to book: ");
-                        int eventId = scanner.nextInt();
-                        scanner.nextLine(); // Consume newline
-
-                        Event event = eventManagement.getEventById(eventId);
-                        if (event != null) {
-                            bookingController.addBooking(userName, userEmail, numberOfTickets, event);
-                        } else {
-                            System.out.println("Invalid Event ID.");
-                        }
+                        bookingsMenu(bookingController, eventManagement, scanner);
                         break;
                     case 2:
-                        System.out.print("Enter booking ID to cancel: ");
-                        int bookingId = scanner.nextInt();
-                        scanner.nextLine(); // Consume newline
-                        bookingController.cancelBooking(bookingId);
+                        adminMenu(admin, eventManagement, scanner);
                         break;
                     case 3:
-                        System.out.print("Enter booking ID to update: ");
-                        int updateBookingId = scanner.nextInt();
-                        scanner.nextLine(); // Consume newline
-                        System.out.print("Enter new number of tickets: ");
-                        int newNumberOfTickets = scanner.nextInt();
-                        scanner.nextLine(); // Consume newline
-
-                        bookingController.updateBooking(updateBookingId, newNumberOfTickets);
-                        break;
-                    case 4:
-                        adminMenu(admin, scanner);
-                        break;
-                    case 5:
-                        eventManagementMenu(eventManagement, scanner);
-                        break;
-                    case 6:
                         System.out.println("Exiting the program...");
                         running = false;
                         System.exit(0);
@@ -83,24 +42,89 @@ public class Main {
         scanner.close();
     }
 
-    private static void adminMenu(Admin admin, Scanner scanner) {
+    private static void bookingsMenu(BookingController bookingController, EventManagement eventManagement, Scanner scanner) {
+        boolean bookingsRunning = true;
+
+        while (bookingsRunning) {
+            System.out.println("Bookings Menu:");
+            System.out.println("1. Add Booking");
+            System.out.println("2. Update Booking");
+            System.out.println("3. Cancel Booking");
+            System.out.println("4. Back to Main Menu");
+            System.out.print("Choose an option: ");
+            int bookingsChoice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            switch (bookingsChoice) {
+                case 1:
+                    System.out.print("Enter your name: ");
+                    String userName = scanner.nextLine();
+                    System.out.print("Enter your email: ");
+                    String userEmail = scanner.nextLine();
+                    System.out.print("Enter number of tickets: ");
+                    int numberOfTickets = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline
+
+                    System.out.println("Available Events:");
+                    eventManagement.listEvents();
+                    System.out.print("Enter Event ID to book: ");
+                    int eventId = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline
+
+                    Event event = eventManagement.getEventById(eventId);
+                    if (event != null) {
+                        bookingController.addBooking(userName, userEmail, numberOfTickets, event);
+                    } else {
+                        System.out.println("Invalid Event ID.");
+                    }
+                    break;
+                case 2:
+                    System.out.print("Enter booking ID to update: ");
+                    int updateBookingId = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline
+                    System.out.print("Enter new number of tickets: ");
+                    int newNumberOfTickets = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline
+
+                    bookingController.updateBooking(updateBookingId, newNumberOfTickets);
+                    break;
+                case 3:
+                    System.out.print("Enter booking ID to cancel: ");
+                    int bookingId = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline
+                    bookingController.cancelBooking(bookingId);
+                    break;
+                case 4:
+                    bookingsRunning = false;
+                    break;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+            }
+        }
+    }
+
+    private static void adminMenu(Admin admin, EventManagement eventManagement, Scanner scanner) {
         boolean adminRunning = true;
 
         while (adminRunning) {
             System.out.println("Admin Menu:");
-            System.out.println("1. View User Bookings");
-            System.out.println("2. Back to Main Menu");
+            System.out.println("1. Event Management");
+            System.out.println("2. Booking Details");
+            System.out.println("3. Back to Main Menu");
             System.out.print("Choose an option: ");
             int adminChoice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
 
             switch (adminChoice) {
                 case 1:
+                    eventManagementMenu(eventManagement, scanner);
+                    break;
+                case 2:
                     System.out.print("Enter user name to view bookings: ");
                     String userToView = scanner.nextLine();
                     admin.viewUserBookings(userToView);
                     break;
-                case 2:
+                case 3:
                     adminRunning = false;
                     break;
                 default:
@@ -120,7 +144,7 @@ public class Main {
             System.out.println("4. List Events");
             System.out.println("5. View Event Details");
             System.out.println("6. Generate Event Report");
-            System.out.println("7. Back to Main Menu");
+            System.out.println("7. Back to Admin Menu");
             System.out.print("Choose an option: ");
             int eventChoice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
