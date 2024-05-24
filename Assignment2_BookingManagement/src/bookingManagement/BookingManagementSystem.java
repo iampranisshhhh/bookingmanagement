@@ -1,6 +1,4 @@
 package bookingManagement;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Scanner;
 
 public class BookingManagementSystem {
@@ -53,7 +51,9 @@ public class BookingManagementSystem {
                         adminMenu(admin, scanner);
                         break;
                     case 5:
+                        System.out.println("Exiting the program...");
                         running = false;
+                        System.exit(0);
                         break;
                     default:
                         System.out.println("Invalid option. Please try again.");
