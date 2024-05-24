@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class BookingManagementSystem {
 	public static void main(String[] args) {
-        BookingController controller = new BookingController();
+        BookingOperations controller = new BookingController();
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
 
@@ -61,5 +61,5 @@ public class BookingManagementSystem {
             }
         }
         scanner.close();
-    }
+        }
 }
