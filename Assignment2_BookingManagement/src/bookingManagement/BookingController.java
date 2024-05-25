@@ -1,6 +1,7 @@
 package bookingManagement;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 
@@ -27,28 +28,27 @@ public class BookingController implements BookingOperations {
         if (bookings.isEmpty()) {
             System.out.println("No bookings available.");
         } else {
-            for (Booking booking : bookings.values()) {
+            bookings.values().forEach(booking -> 
                 System.out.println("Booking ID: " + booking.getBookingId() +
                                    ", User: " + booking.getUserName() +
                                    ", Email: " + booking.getUserEmail() +
-                                   ", Tickets: " + booking.getNumberOfTickets());
-            }
+                                   ", Tickets: " + booking.getNumberOfTickets()));
         }
     }
 
     public synchronized void viewBookingsByUser(String userName) {
-        boolean found = false;
-        for (Booking booking : bookings.values()) {
-            if (booking.getUserName().equals(userName)) {
+        var userBookings = bookings.values().stream()
+            .filter(booking -> booking.getUserName().equals(userName))
+            .collect(Collectors.toList());
+
+        if (userBookings.isEmpty()) {
+            System.out.println("No bookings found for user: " + userName);
+        } else {
+            userBookings.forEach(booking -> 
                 System.out.println("Booking ID: " + booking.getBookingId() +
                                    ", User: " + booking.getUserName() +
                                    ", Email: " + booking.getUserEmail() +
-                                   ", Tickets: " + booking.getNumberOfTickets());
-                found = true;
-            }
-        }
-        if (!found) {
-            System.out.println("No bookings found for user: " + userName);
+                                   ", Tickets: " + booking.getNumberOfTickets()));
         }
     }
 
