@@ -14,7 +14,7 @@ public class EventManagement implements EventOperations {
     }
 
     @Override
-    public void updateEvent(String eventId, String newName, Date newDate, String newVenue, String newType, String newTime) {
+    public void updateEvent(String eventId, String newName, Date newDate, String newVenue, String newType, String newTime, String newHallNumber) {
         for (Event event : events) {
             if (event.getEventId().equals(eventId)) {
                 event.setEventName(newName);
@@ -22,6 +22,7 @@ public class EventManagement implements EventOperations {
                 event.setEventVenue(newVenue);
                 event.setEventType(newType);
                 event.setEventTime(newTime);
+                event.setHallNumber(newHallNumber);
                 return;
             }
         }
@@ -47,7 +48,7 @@ public class EventManagement implements EventOperations {
         boolean found = false;
         for (Event event : events) {
             if (event.getEventType().equalsIgnoreCase(eventType)) {
-                System.out.println(event.getEventName());
+                System.out.println(event.getEventId() + ": " + event.getEventName());
                 found = true;
             }
         }
@@ -85,38 +86,4 @@ public class EventManagement implements EventOperations {
         }
         return null;
     }
-
-    public Event getEventByName(String eventName) {
-        for (Event event : events) {
-            if (event.getEventName().equalsIgnoreCase(eventName)) {
-                return event;
-            }
-        }
-        return null;
-    }
-
-	@Override
-	public void updateEvent(int eventId, String newName, Date newDate, String newVenue, String newType) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteEvent(int eventId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void viewEventDetails(int eventId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateEvent(int eventId, String newName, Date newDate, String newVenue, String newType,
-			String newTime) {
-		// TODO Auto-generated method stub
-		
-	}
 }

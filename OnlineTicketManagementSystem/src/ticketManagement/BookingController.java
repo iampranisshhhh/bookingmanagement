@@ -26,16 +26,12 @@ public class BookingController implements BookingOperations {
         } else {
             bookings.values().forEach(booking -> System.out.println(
                 "Booking ID: " + booking.getBookingId() +
-                ", User: " + booking.getUserName() +
-                ", Email: " + booking.getUserEmail() +
-                ", Tickets: " + booking.getNumberOfTickets() +
-                ", Event: " + booking.getEvent().getEventName()
+                " User: " + booking.getUserName() +
+                " Email: " + booking.getUserEmail() +
+                " Tickets: " + booking.getNumberOfTickets() +
+                " Event: " + booking.getEvent().getEventName()
             ));
         }
-    }
-
-    public synchronized void viewAllBookings() {
-        viewBookings();
     }
 
     @Override
@@ -58,13 +54,27 @@ public class BookingController implements BookingOperations {
         }
     }
 
+    public void viewBookingsByUser(String userName) {
+        boolean found = false;
+        for (Booking booking : bookings.values()) {
+            if (booking.getUserName().equalsIgnoreCase(userName)) {
+                System.out.println(
+                    "Booking ID: " + booking.getBookingId() +
+                    " User: " + booking.getUserName() +
+                    " Email: " + booking.getUserEmail() +
+                    " Tickets: " + booking.getNumberOfTickets() +
+                    " Event: " + booking.getEvent().getEventName()
+                );
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No bookings found for user: " + userName);
+        }
+    }
+
     private void sendConfirmationEmail(Booking booking) {
         String confirmationMessage = "Confirmation email sent to " + booking.getUserEmail() + " for booking ID " + booking.getBookingId();
         System.out.println(confirmationMessage);
     }
-
-	public void viewBookingsByUser(String userName) {
-		// TODO Auto-generated method stub
-		
-	}
-	}
+}
